@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BKP_Task_01", "BKP_Task_01\BKP_Task_01.csproj", "{0CEA0309-FD5D-4649-9FC3-8240D9CC08FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BKP_Task_01", "BKP_Task_01\BKP_Task_01.csproj", "{0CEA0309-FD5D-4649-9FC3-8240D9CC08FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BKP_Task_02", "BKP_Task_02\BKP_Task_02.csproj", "{9DF9FB3E-95B4-4CC2-BFE4-A2AF948ED935}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{0CEA0309-FD5D-4649-9FC3-8240D9CC08FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CEA0309-FD5D-4649-9FC3-8240D9CC08FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CEA0309-FD5D-4649-9FC3-8240D9CC08FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DF9FB3E-95B4-4CC2-BFE4-A2AF948ED935}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DF9FB3E-95B4-4CC2-BFE4-A2AF948ED935}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DF9FB3E-95B4-4CC2-BFE4-A2AF948ED935}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DF9FB3E-95B4-4CC2-BFE4-A2AF948ED935}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
