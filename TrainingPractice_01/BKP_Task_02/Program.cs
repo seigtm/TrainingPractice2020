@@ -6,6 +6,7 @@ namespace BKP_Task_02
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Введите любое слово. \"exit\" завершит программу!");
             while (Console.ReadLine() != "exit") ;
         }
     }
