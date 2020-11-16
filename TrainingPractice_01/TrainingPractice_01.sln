@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BKP_Task_01", "BKP_Task_01\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BKP_Task_02", "BKP_Task_02\BKP_Task_02.csproj", "{9DF9FB3E-95B4-4CC2-BFE4-A2AF948ED935}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BKP_Task_03", "BKP_Task_03\BKP_Task_03.csproj", "{135CCB5D-C13C-44C8-AFD9-41A8DF023025}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{9DF9FB3E-95B4-4CC2-BFE4-A2AF948ED935}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DF9FB3E-95B4-4CC2-BFE4-A2AF948ED935}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DF9FB3E-95B4-4CC2-BFE4-A2AF948ED935}.Release|Any CPU.Build.0 = Release|Any CPU
+		{135CCB5D-C13C-44C8-AFD9-41A8DF023025}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{135CCB5D-C13C-44C8-AFD9-41A8DF023025}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{135CCB5D-C13C-44C8-AFD9-41A8DF023025}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{135CCB5D-C13C-44C8-AFD9-41A8DF023025}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
