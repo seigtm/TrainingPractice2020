@@ -11,9 +11,9 @@ namespace BKP_Task_03
             for (int i = 0; i < 3; ++i)
             {
                 Console.WriteLine("Введите пароль: ");
-                string userpassword = Console.ReadLine();
+                string userPassword = Console.ReadLine();
 
-                if (password == userpassword)
+                if (password == userPassword)
                 {
                     Console.WriteLine("Успешный вход!");
                     break;
