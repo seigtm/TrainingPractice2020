@@ -19,7 +19,7 @@ public class Game
         wasSwordCasted = false;
     }
 
-    public void InitDialog()
+    public void Dialog()
     {
         Console.WriteLine("██████████████████████████▀████████████████████████████████████████████████████████████");
         Console.WriteLine("█▄─▄▄▀█▄─██─▄█▄─▀█▄─▄█─▄▄▄▄█▄─▄▄─█─▄▄─█▄─▀█▄─▄███▄─▀█▀─▄██▀▄─██─▄▄▄▄█─▄─▄─█▄─▄▄─█▄─▄▄▀█");
@@ -52,13 +52,32 @@ public class Game
         Console.Clear();
     }
 
-    public bool NextTurn()
+    public bool Init()
     {
+        if (heroHP <= 0)
+        {
+            Console.WriteLine("*Предводитель орков насмехается и приплясывает на вашем трупе под истошные крики Кьянеа*" +
+                "\n\n  >>> ВЫ ПРОИГРАЛИ <<<");
+            return false;
+        }
+
+        if (bossHP <= 0)
+        {
+            Console.WriteLine("Вы: \"Это было довольно просто. Хорошо, что нам попался такой слабый босс.\"" +
+                "\nКьянеа: \"Мастер, Вы не правы! Он был очень силён!\"" +
+                "\nВы: \"Может и так, может и так...\"" +
+                "\nВы: \"В любом случае, давай выходить уже из этого подземелья.\"" +
+                "\nКьянеа: \"Да, конечно!\"" +
+                "\n\n  >>> ПОЗДРАВЛЯЕМ С ПОБЕДОЙ <<<");
+            return false;
+        }
+
+
         if (isHeroTurn)
         {
-            Console.WriteLine(">> Вы: " + heroHP + " HP <<" +
+            Console.WriteLine(">> Вы: " + heroHP + "/" + maxHeroHP + " HP <<" +
             "\n>> Босс: " + bossHP + " HP <<\n");
-            
+
             Cast();
         }
         else
@@ -71,7 +90,7 @@ public class Game
 
             Console.WriteLine(" *Предводитель орков нанёс вам " + damage + " урона!*");
 
-            Console.WriteLine(">> Вы: " + heroHP + " HP <<" +
+            Console.WriteLine(">> Вы: " + heroHP + "/" + maxHeroHP + " HP <<" +
             "\n>> Босс: " + bossHP + " HP <<\n");
         }
 
@@ -195,7 +214,9 @@ public class Game
                 break;
 
             default:
-                Console.WriteLine("*Вы запутались в заклинаниях и пропустили ход!*");
+                Console.WriteLine("*... " +
+                    "\n*Похоже, Вы запутались в заклинаниях...*" +
+                    "\n*Вы пропускаете ход!*");
                 break;
         }
 
@@ -236,12 +257,12 @@ namespace BKP_Task_04
         static void Main(string[] args)
         {
             Game game = new Game();
-            
+
             // Диалог в начале боя.
-            game.InitDialog();
+            game.Dialog();
 
             // Сам процесс боёвки.
-            while (game.NextTurn());
+            while (game.Init()) ;
 
             // Чтобы удержать консольное окно открытым.
             Console.ReadKey();
