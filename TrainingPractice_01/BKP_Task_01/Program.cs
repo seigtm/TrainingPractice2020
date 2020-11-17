@@ -50,6 +50,8 @@ namespace BKP_Task_01
             }
 
             Console.WriteLine("\n*Баланс: {0} кристаллов, {1} золота*", crystals, gold);
+
+            Console.ReadKey();
         }
     }
 }

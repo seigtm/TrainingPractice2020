@@ -19,6 +19,7 @@ namespace BKP_Task_03
                     break;
                 }
             }
+            Console.ReadKey();
         }
     }
 }
