@@ -1,23 +1,29 @@
 ﻿using System;
 using System.IO;
 
-public class Labyrinth
+public class Map
 {
     // public:
     // Конструктор с параметрами.
-    public Labyrinth(string mapName)
+    public Map(string mapName)
     {
         // Считываем мапу из файла.
         ReadMap(mapName);
         // Задаём изначальное ХП = 10.
         m_HP = 10;
+
+        // Рисуем в самом начале мапу и ХП-бар.
+        DrawMap();
+        DrawBar();
+
+        // Получаем положение ХП-бара в консоли.
+        // (Пригодится, чтобы убавлять показатели ХП.)
+        m_barX = Console.CursorLeft + 10; // по количеству символов нужно сделать +10 по X.
+        m_barY = Console.CursorTop - 1;   // и -1 по Y.
     }
 
     public bool Init()
     {
-        // Рисуем мапу и ХП-бар в начале каждого хода.
-        DrawMap();
-        DrawBar();
 
         // Если у персонажа закончилось ХП.
         if (m_HP <= 0)
@@ -25,7 +31,7 @@ public class Labyrinth
             return false;
         }
 
-        // Если персонаж встал на символ % (конца лабиринта).
+        // Если персонаж встал на символ % (выход).
         if (m_map[m_performerY, m_performerX] == '%')
         {
             return false;
@@ -33,11 +39,6 @@ public class Labyrinth
 
         // Выполняем передвижение персонажа.
         Move();
-
-        // TODO: Рандомно двигаем врагов. (возможно не нужно, буду делать ловушки)
-
-        // Чистим консоль после каждого хода.
-        Console.Clear();
 
         return true;
     }
@@ -105,6 +106,31 @@ public class Labyrinth
         if (m_map[Y, X] == '%')
         {
             Console.WriteLine(" >>> ВЫ ПОБЕДИЛИ! <<<");
+            Console.ReadKey();
+            System.Environment.Exit(0);
+        }
+    }
+
+    // Проверка наличия врага на координатах.
+    private void CheckEnemy(int Y, int X)
+    {
+        // Если на положении, куда двигается персонаж, стоит враг.
+        if (m_map[Y, X] == '!')
+        {
+            // Снимаем 1 HP.
+            m_HP--;
+            // В ХП-баре убираем один символ ХП - решётку #.
+            Console.SetCursorPosition(m_barX--, m_barY);
+            Console.Write('_');
+        }
+
+        // Если наш враг - наш след (иронично).
+        if (m_map[Y, X] == '▼')
+        {
+            Console.Clear();
+            Console.WriteLine(" **    ВЫ ВСТАЛИ НА СВОЙ СЛЕД!   **" +
+                            "\n >> До свидания! Спасибо за игру! << ");
+            Console.ReadKey();
             System.Environment.Exit(0);
         }
     }
@@ -121,16 +147,16 @@ public class Labyrinth
                 // Если персонаж двигается не в стену.
                 if (m_map[m_performerY + 1, m_performerX] != '*')
                 {
-                    // Если на положении, куда двигается персонаж, стоит враг.
-                    if (m_map[m_performerY + 1, m_performerX] == '!')
-                    {
-                        // Снимаем 1 HP.
-                        m_HP--;
-                    }
+                    // Проверяем наличие врага на координате.
+                    CheckEnemy(m_performerY + 1, m_performerX);
 
                     // Графически меняем положение персонажа.
-                    m_map[m_performerY, m_performerX] = ' ';
-                    m_map[++m_performerY, m_performerX] = '■';
+                    Console.SetCursorPosition(m_performerX, m_performerY);
+                    // Рисуем след за персонажем.
+                    Console.Write('▼');
+                    m_map[m_performerY, m_performerX] = '▼';
+                    Console.SetCursorPosition(m_performerX, ++m_performerY);
+                    Console.Write('■'); // Рисуем новое положение персонажа.
 
                     // Проверяем, оказался ли наш персонаж на выходе.
                     CheckExit(m_performerY, m_performerX);
@@ -141,16 +167,16 @@ public class Labyrinth
                 // Если персонаж двигается не в стену.
                 if (m_map[m_performerY - 1, m_performerX] != '*')
                 {
-                    // Если на положении, куда двигается персонаж, стоит враг.
-                    if (m_map[m_performerY - 1, m_performerX] == '!')
-                    {
-                        // Снимаем 1 HP.
-                        m_HP--;
-                    }
+                    // Проверяем наличие врага на координате.
+                    CheckEnemy(m_performerY - 1, m_performerX);
 
                     // Графически меняем положение персонажа.
-                    m_map[m_performerY, m_performerX] = ' ';
-                    m_map[--m_performerY, m_performerX] = '■';
+                    Console.SetCursorPosition(m_performerX, m_performerY);
+                    // Рисуем след за персонажем.
+                    Console.Write('▼');
+                    m_map[m_performerY, m_performerX] = '▼';
+                    Console.SetCursorPosition(m_performerX, --m_performerY);
+                    Console.Write('■');
 
                     // Проверяем, оказался ли наш персонаж на выходе.
                     CheckExit(m_performerY, m_performerX);
@@ -161,20 +187,20 @@ public class Labyrinth
                 // Если персонаж двигается не в стену.
                 if (m_map[m_performerY, m_performerX - 1] != '*')
                 {
-                    // Если на положении, куда двигается персонаж, стоит враг.
-                    if (m_map[m_performerY, m_performerX - 1] == '!')
-                    {
-                        // Снимаем 1 HP.
-                        m_HP--;
-                    }
+                    // Проверяем наличие врага на координате.
+                    CheckEnemy(m_performerY, m_performerX - 1);
 
                     // Графически меняем положение персонажа.
-                    m_map[m_performerY, m_performerX] = ' ';
-                    m_map[m_performerY, --m_performerX] = '■';
+                    Console.SetCursorPosition(m_performerX, m_performerY);
+                    // Рисуем след за персонажем.
+                    Console.Write('▼');
+                    m_map[m_performerY, m_performerX] = '▼';
+                    Console.SetCursorPosition(--m_performerX, m_performerY);
+                    Console.Write('■');
 
                     // Проверяем, оказался ли наш персонаж на выходе.
                     CheckExit(m_performerY, m_performerX);
-                    //Console.SetCursorPosition(m_performerX, m_performerY);
+
                 }
                 break;
 
@@ -182,27 +208,26 @@ public class Labyrinth
                 // Если персонаж двигается не в стену.
                 if (m_map[m_performerY, m_performerX + 1] != '*')
                 {
-                    // Если на положении, куда двигается персонаж, стоит враг.
-                    if (m_map[m_performerY, m_performerX + 1] == '!')
-                    {
-                        // Снимаем 1 HP.
-                        m_HP--;
-                    }
+                    // Проверяем наличие врага на координате.
+                    CheckEnemy(m_performerY, m_performerX + 1);
 
                     // Графически меняем положение персонажа.
-                    m_map[m_performerY, m_performerX] = ' ';
-                    m_map[m_performerY, ++m_performerX] = '■';
+                    Console.SetCursorPosition(m_performerX, m_performerY);
+                    // Рисуем след за персонажем.
+                    Console.Write('▼');
+                    m_map[m_performerY, m_performerX] = '▼';
+                    Console.SetCursorPosition(++m_performerX, m_performerY);
+                    Console.Write('■');
 
                     // Проверяем, оказался ли наш персонаж на выходе.
                     CheckExit(m_performerY, m_performerX);
                 }
                 break;
 
-            case ConsoleKey.F1:
-                // Показать правильный маршрут лабиринта.
-                break;
-
             case ConsoleKey.Escape:
+                Console.Clear();
+                Console.WriteLine(" >> До свидания! Спасибо за игру! << ");
+                Console.ReadKey();
                 System.Environment.Exit(0);
                 break;
 
@@ -213,10 +238,12 @@ public class Labyrinth
 
 
     // private fields:
-    // Мапа лабиринта.
+    // Мапа.
     private char[,] m_map;
     // Положение персонажа в мапе в консоли по X и Y.
     private int m_performerX, m_performerY;
+    // Положение ХП-бара в консольном окне по X и Y.
+    private int m_barX, m_barY;
     // ХП персонажа.
     private int m_HP;
 }
@@ -227,15 +254,60 @@ namespace BKP_Task_05
     {
         static void Main(string[] args)
         {
-            // Создаём экземпляр класса лабиринта.
+            // Правила игры.
+            Console.WriteLine(">>>              Правила игры                        <<<" +
+                            "\n> Всё достаточно просто!                               <" +
+                            "\n> Двигайте персонажа на клавиши стрелок                <" +
+                            "\n> Клавиша ESC - выход из программы                     <" +
+                            "\n> Доступные пути на карте отображаются символом #      <" +
+                            "\n> Стены - *, ловушки (наносят урон) - !, ваш герой - ■ <" +
+                            "\n> Ваш персонаж оставляет за собой след!                <" +
+                            "\n> Если вы попытаетесь повернуть назад, то проиграете!  <" +
+                            "\n>>>      МУЖИКИ НЕ ОБОРАЧИВАЮТСЯ НА ВЗРЫВЫ!          <<<" +
+                            "\n> Если вы потеряете всё ХП, то проиграете!             <" +
+                            "\n> Необходимо дойти до финиша (символ %)                <" +
+                            "\n***             УДАЧНОЙ ИГРЫ!                        ***" +
+                            "\n\n     > ...Нажмите ENTER для продолжения... < ");
+
+            Console.ReadKey();
+            Console.Clear();
+
+            // Создаём экземпляр класса карты (я решил не делать лабиринт, хотя на него похоже).
             // В конструктор передаём название текстового файла с мапой.
-            Labyrinth labyrinth = new Labyrinth("map");
+            Map map = new Map("map");
 
             // Цикл выполнения игры.
-            while (labyrinth.Init()) ;
+            while (map.Init()) ;
+            // Внутри Init() программа сама завершит свою работу, если
+            //  герой встанет на свой след или пройдёт игру.
+            // Потому, в данном случае, цикл завершится только если
+            //  ХП персонажа опустится до нуля.
 
-            // Чтобы консольное окно не закрывалось после завершения программы.
+            // После чего выведется такое сообщение поражения:
+            Console.Clear();
+            Console.WriteLine(" >> Вы проиграли! Спасибо за игру! << ");
+
             Console.ReadKey();
         }
     }
 }
+
+
+/*
+             Мапа:
+
+    ************************
+    *■**************#####***
+    *#********###!###***!***
+    *#********#*****#***!***
+    *###!!!!**#*****#***#***
+    ***#***#**!*****#####***
+    ***#***#**!*****#***#***
+    ***#***#**!**#**###!!***
+    ***#***#**#**#**#***#***
+    ***!***#**#**#**#***#***
+    ***#***####**#**##**#***
+    **##****#****#***#**#***
+    *##*****##!###***##!##%*
+    ************************
+*/
