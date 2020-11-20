@@ -23,7 +23,7 @@ namespace BKP_Task_06
                 PrintMenu();
 
                 // Выбор пункта меню.
-                menuAction = Convert.ToByte(Console.ReadLine());
+                menuAction = Convert.ToInt16(Console.ReadLine());
 
                 // Выполнение соответствующего действия.
                 switch (menuAction)
